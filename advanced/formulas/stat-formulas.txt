@@ -1,0 +1,20 @@
+HITTING STATS:
+
+OBP (on base percentage):
+OBP = (Hits + Walks + Hit by Pitch) / (At Bats + Walks + Hit by Pitch + Sacrifice Flies)
+
+SLG (slugging average):
+Total bases (including extra base-hits) divided by at-bats
+SLG = ((1*singles) + (2*doubles) + (3*triples) + (4*HRs)) / AB
+or 
+TB (total bases) divided by at bats
+
+OPS (on-base slugging):
+Considered to be an overall assessment of a players production.
+OPS = OBP + SLG
+
+
+PITCHING STATS:
+
+ERA (earned run average)
+(ER / IP) * 9
