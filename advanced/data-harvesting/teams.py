@@ -77,13 +77,51 @@ homeTeamPitchingStats["era"] = float(homeTeamPitchingStats["era"])
 homeTeamPitchingStats["inningsPitched"] = float(homeTeamPitchingStats["inningsPitched"])
 
 
-print(json.dumps(awayTeamBattingStats))
-print(json.dumps(awayTeamPitchingStats))
-print(json.dumps(homeTeamBattingStats))
-print(json.dumps(homeTeamPitchingStats))
+# print(json.dumps(awayTeamBattingStats))
+# print(json.dumps(awayTeamPitchingStats))
 
-# homeTeamID = boxscore["teamInfo"]["home"]["id"]
-# awayTeamID = boxscore["teamInfo"]["away"]["id"]
+
+# print(json.dumps(homeTeamBattingStats))
+# print(json.dumps(homeTeamPitchingStats))
+
+
+awayTeamPlayerStats = boxscore["away"]["players"]
+for key in awayTeamPlayerStats:
+    player = awayTeamPlayerStats[key]
+    idAndName = player["person"]
+    jerseyNumber = player["jerseyNumber"]
+    position = player["position"]["abbreviation"]
+    team = player["parentTeamId"]
+    gameStatsBatting = player["stats"]["batting"]
+    gameStatsPitching = player["stats"]["pitching"]
+    seasonStatsBatting = player["seasonStats"]["batting"]
+    seasonStatsPitching = player["seasonStats"]["pitching"]
+
+
+homeTeamPlayerStats = boxscore["home"]["players"]
+for key in awayTeamPlayerStats:
+    player = awayTeamPlayerStats[key]
+    idAndName = player["person"]
+    jerseyNumber = player["jerseyNumber"]
+    position = player["position"]["abbreviation"]
+    team = player["parentTeamId"]
+    gameStatsBatting = player["stats"]["batting"]
+    gameStatsPitching = player["stats"]["pitching"]
+    seasonStatsBatting = player["seasonStats"]["batting"]
+    seasonStatsPitching = player["seasonStats"]["pitching"]
+    print(idAndName["fullName"], jerseyNumber, position, team, gameStatsBatting, seasonStatsBatting)
+
+
+awayTeamBattingLineUp = boxscore["away"]["batters"]
+awayTeamBattingOrder = boxscore["away"]["battingOrder"]
+awayTeamPitchers = boxscore["away"]["pitching"]
+
+
+homeTeamBattingLineUp = boxscore["home"]["batters"]
+homeTeamBattingOrder = boxscore["home"]["battingOrder"]
+homeTeamPitchers = boxscore["home"]["pitching"]
+
+
 
 # print("home: %i,  away: %i" % (homeTeamID, awayTeamID))
 
