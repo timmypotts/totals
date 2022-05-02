@@ -49,8 +49,38 @@ lastGame = statsapi.last_game(teams["Giants"])
 # BOXSCORE DICTIONARY
 boxscore = statsapi.boxscore_data(lastGame, timecode=None)
 # print(json.dumps(boxscore))
-print(json.dumps(boxscore["homePitchingTotals"]["h"]))
-print(json.dumps(boxscore["homeBattingTotals"]))
+# print(json.dumps(boxscore["homePitchingTotals"]["h"]))
+awayTeamID = boxscore["away"]["team"]["id"]
+awayTeamBattingStats = boxscore["away"]["teamStats"]["batting"]
+awayTeamBattingStats["avg"] = float(awayTeamBattingStats["avg"])
+awayTeamBattingStats["obp"] = float(awayTeamBattingStats["obp"])
+awayTeamBattingStats["slg"] = float(awayTeamBattingStats["slg"])
+awayTeamBattingStats["ops"] = float(awayTeamBattingStats["ops"])
+
+awayTeamPitchingStats = boxscore["away"]["teamStats"]["pitching"]
+awayTeamPitchingStats["obp"] = float(awayTeamPitchingStats["obp"])
+awayTeamPitchingStats["era"] = float(awayTeamPitchingStats["era"])
+awayTeamPitchingStats["inningsPitched"] = float(awayTeamPitchingStats["inningsPitched"])
+
+
+homeTeamID = boxscore["home"]["team"]["id"]
+
+homeTeamBattingStats = boxscore["away"]["teamStats"]["batting"]
+homeTeamBattingStats["avg"] = float(homeTeamBattingStats["avg"])
+homeTeamBattingStats["obp"] = float(homeTeamBattingStats["obp"])
+homeTeamBattingStats["slg"] = float(homeTeamBattingStats["slg"])
+homeTeamBattingStats["ops"] = float(homeTeamBattingStats["ops"])
+
+homeTeamPitchingStats = boxscore["away"]["teamStats"]["pitching"]
+homeTeamPitchingStats["obp"] = float(homeTeamPitchingStats["obp"])
+homeTeamPitchingStats["era"] = float(homeTeamPitchingStats["era"])
+homeTeamPitchingStats["inningsPitched"] = float(homeTeamPitchingStats["inningsPitched"])
+
+
+print(json.dumps(awayTeamBattingStats))
+print(json.dumps(awayTeamPitchingStats))
+print(json.dumps(homeTeamBattingStats))
+print(json.dumps(homeTeamPitchingStats))
 
 # homeTeamID = boxscore["teamInfo"]["home"]["id"]
 # awayTeamID = boxscore["teamInfo"]["away"]["id"]
