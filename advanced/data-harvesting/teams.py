@@ -1,6 +1,9 @@
 import statsapi
+import sqlalchemy
 import json
 
+
+db = sqlalchemy.create_engine('postgresql://postgres:a0E24me@localhost:5432/mlb')
 teams = {
     # ======================== NATIONAL LEAGUE ========================
     # NL WEST
@@ -55,27 +58,79 @@ boxscore = statsapi.boxscore_data(lastGame, timecode=None)
 print(json.dumps(boxscore["home"]))
 
 
-# print(json.dumps(boxscore["homePitchingTotals"]["h"]))
-# print(json.dumps(boxscore["homeBattingTotals"]))
+awayTeamID = boxscore["away"]["team"]["id"]
+awayTeamBattingStats = boxscore["away"]["teamStats"]["batting"]
+awayTeamBattingStats["avg"] = float(awayTeamBattingStats["avg"])
+awayTeamBattingStats["obp"] = float(awayTeamBattingStats["obp"])
+awayTeamBattingStats["slg"] = float(awayTeamBattingStats["slg"])
+awayTeamBattingStats["ops"] = float(awayTeamBattingStats["ops"])
 
-# homeTeamID = boxscore["teamInfo"]["home"]["id"]
-# awayTeamID = boxscore["teamInfo"]["away"]["id"]
+awayTeamPitchingStats = boxscore["away"]["teamStats"]["pitching"]
+awayTeamPitchingStats["obp"] = float(awayTeamPitchingStats["obp"])
+awayTeamPitchingStats["era"] = float(awayTeamPitchingStats["era"])
+awayTeamPitchingStats["inningsPitched"] = float(awayTeamPitchingStats["inningsPitched"])
+
+
+homeTeamID = boxscore["home"]["team"]["id"]
+
+homeTeamBattingStats = boxscore["away"]["teamStats"]["batting"]
+homeTeamBattingStats["avg"] = float(homeTeamBattingStats["avg"])
+homeTeamBattingStats["obp"] = float(homeTeamBattingStats["obp"])
+homeTeamBattingStats["slg"] = float(homeTeamBattingStats["slg"])
+homeTeamBattingStats["ops"] = float(homeTeamBattingStats["ops"])
+
+homeTeamPitchingStats = boxscore["away"]["teamStats"]["pitching"]
+homeTeamPitchingStats["obp"] = float(homeTeamPitchingStats["obp"])
+homeTeamPitchingStats["era"] = float(homeTeamPitchingStats["era"])
+homeTeamPitchingStats["inningsPitched"] = float(homeTeamPitchingStats["inningsPitched"])
+
+
+# print(json.dumps(awayTeamBattingStats))
+# print(json.dumps(awayTeamPitchingStats))
+
+
+# print(json.dumps(homeTeamBattingStats))
+# print(json.dumps(homeTeamPitchingStats))
+
+
+awayTeamPlayerStats = boxscore["away"]["players"]
+for key in awayTeamPlayerStats:
+    player = awayTeamPlayerStats[key]
+    idAndName = player["person"]
+    jerseyNumber = player["jerseyNumber"]
+    position = player["position"]["abbreviation"]
+    team = player["parentTeamId"]
+    gameStatsBatting = player["stats"]["batting"]
+    gameStatsPitching = player["stats"]["pitching"]
+    seasonStatsBatting = player["seasonStats"]["batting"]
+    seasonStatsPitching = player["seasonStats"]["pitching"]
+
+homeTeamPlayerStats = boxscore["home"]["players"]
+for key in awayTeamPlayerStats:
+    player = awayTeamPlayerStats[key]
+    idAndName = player["person"]
+    jerseyNumber = player["jerseyNumber"]
+    position = player["position"]["abbreviation"]
+    team = player["parentTeamId"]
+    gameStatsBatting = player["stats"]["batting"]
+    gameStatsPitching = player["stats"]["pitching"]
+    seasonStatsBatting = player["seasonStats"]["batting"]
+    seasonStatsPitching = player["seasonStats"]["pitching"]
+    print(idAndName["fullName"], jerseyNumber, position, team, gameStatsBatting, seasonStatsBatting)
+
+
+awayTeamBattingLineUp = boxscore["away"]["batters"]
+awayTeamBattingOrder = boxscore["away"]["battingOrder"]
+awayTeamPitchers = boxscore["away"]["pitchers"]
+
+
+homeTeamBattingLineUp = boxscore["home"]["batters"]
+homeTeamBattingOrder = boxscore["home"]["battingOrder"]
+homeTeamPitchers = boxscore["home"]["pitchers"]
+
+
 
 # print("home: %i,  away: %i" % (homeTeamID, awayTeamID))
-
-
-# print(json.dumps(boxscore["home"]["teamStats"]))
-
-# print(boxscore["playerInfo"])
-# playerInfo = boxscore["playerInfo"]
-
-# for key, value in playerInfo:
-#     print(key)
-
-# for info in boxscore:
-#     for j in boxscore["playerInfo"]:
-#         for player in j:
-#             print(j[player])
 
 
 # SCORING PLAYS
