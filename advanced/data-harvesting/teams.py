@@ -49,8 +49,14 @@ lastGame = statsapi.last_game(teams["Giants"])
 # BOXSCORE DICTIONARY
 boxscore = statsapi.boxscore_data(lastGame, timecode=None)
 # print(json.dumps(boxscore))
-print(json.dumps(boxscore["homePitchingTotals"]["h"]))
-print(json.dumps(boxscore["homeBattingTotals"]))
+# print(boxscore["gameId"])
+
+# Returns home team stats and player stats
+print(json.dumps(boxscore["home"]))
+
+
+# print(json.dumps(boxscore["homePitchingTotals"]["h"]))
+# print(json.dumps(boxscore["homeBattingTotals"]))
 
 # homeTeamID = boxscore["teamInfo"]["home"]["id"]
 # awayTeamID = boxscore["teamInfo"]["away"]["id"]

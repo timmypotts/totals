@@ -7,4 +7,6 @@ CREATE TABLE game (
     away_team_runs integer,
     home_team_starting_pitcher integer,
     away_team_starting_pitcher integer,
+    home_team_relief_pitcher integer,
+    away_team_relief_pitcher integer
 )

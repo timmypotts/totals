@@ -3,6 +3,6 @@ CREATE TABLE team (
     name text NOT NULL,
     state text NOT NULL,
     city text NOT NULL,
-    home_field integer,
-    FOREIGN KEY (field_id) REFERENCES field(id) ON UPDATE CASCADE,
-)
+    field integer,
+    FOREIGN KEY (field) REFERENCES field(id) ON UPDATE CASCADE
+);

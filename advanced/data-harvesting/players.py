@@ -77,5 +77,44 @@ league_leader_types = [
 
 
 # PLAYER STAT DATA
-playerStats = statsapi.player_stat_data(
-    personId, group="[hitting,pitching,fielding]", type="season")
+# playerStats = statsapi.player_stat_data(
+#     personId, group="[hitting, pitching, fielding]", type="season")
+
+# GET STATS BY NAME
+print(statsapi.player_stats(next(x['id'] for x in statsapi.get('sports_players', {
+      'season': 2022, 'gameType': 'W'})['people'] if x['fullName'] == 'Bryce Harper'), 'hitting', 'season'))
+
+Angels = [
+    "Brandon Marsh",
+    "David Fletcher",
+    "Jack Mayfield",
+    "Jared Walsh",
+    "Jo Adell",
+    "Jose Rojas",
+    "Juan Lagares",
+    "Kurt Suzuki",
+    "Luis Rengifo",
+    "Max Stassi",
+    "Phil Gosselin",
+    "Shohei Ohtani",
+    "Taylor Ward"
+]
+
+BrandonMarsh
+# players = {
+#     "Brandon Marsh": {
+#         "position":
+#     },
+#     "David Fletcher": {},
+#     "Jack Mayfield": {},
+#     "Jared Walsh": {},
+#     "Jo Adell": {},
+#     "Jose Rojas": {},
+#     "Juan Lagares": {},
+#     "Kurt Suzuki": {},
+#     "Luis Rengifo": {},
+#     "Max Stassi": {},
+#     "Phil Gosselin": {},
+#     "Shohei Ohtani": {},
+#     "Taylor Ward": {},
+# }

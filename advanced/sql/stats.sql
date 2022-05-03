@@ -1,4 +1,5 @@
 CREATE TABLE batting_stats (
+    player_id integer,
     at_bats integer,
     runs integer,
     hits integer,
@@ -13,12 +14,13 @@ CREATE TABLE batting_stats (
     obs decimal,
     obp decimal,
     slg decimal,
-    player_id integer,
+    at_bats_per_home_run decimal,
     game_id integer,
 )
 
 CREATE TABLE pitching_stats (
     era decimal,
+    innings_pitched decimal,
     hits integer,
     runs integer,
     earned_runs integer,
