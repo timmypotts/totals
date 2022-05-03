@@ -1,9 +1,10 @@
 import statsapi
-import sqlalchemy
 import json
-
+import sqlalchemy
 
 db = sqlalchemy.create_engine('postgresql://postgres:a0E24me@localhost:5432/mlb')
+
+
 teams = {
     # ======================== NATIONAL LEAGUE ========================
     # NL WEST
