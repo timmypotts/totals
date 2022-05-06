@@ -1,11 +1,12 @@
 CREATE TABLE players (
     id serial PRIMARY KEY,
-    first_name text NOT NULL,
-    last_name text NOT NULL,
-    title text,
+    full_name text NOT NULL,
+    number integer NOT NULL,
+    position text NOT NULL,
     bats text NOT NULL,
     throws text NOT NULL,
-    position text NOT NULL,
     injured boolean NOT NULL DEFAULT false,
-    ba decimal NOT NULL   
-)
+    ba decimal NOT NULL,
+    team integer NOT NULL,
+    FOREIGN KEY (team) REFERENCES team(id) ON UPDATE CASCADE
+);

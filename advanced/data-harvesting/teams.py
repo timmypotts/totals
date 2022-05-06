@@ -1,6 +1,8 @@
 import statsapi
 import json
 import sqlalchemy
+import psycopg2
+
 
 db = sqlalchemy.create_engine('postgresql://postgres:a0E24me@localhost:5432/mlb')
 
@@ -56,34 +58,34 @@ boxscore = statsapi.boxscore_data(lastGame, timecode=None)
 # print(boxscore["gameId"])
 
 # Returns home team stats and player stats
-print(json.dumps(boxscore["home"]))
+# print(json.dumps(boxscore["home"]))
+sqlStatment_GAME = 'INSERT INTO players (id, date, home_team, away_team, home_team_runs, away_team_runs,  home_team_starting_pitcher, away_team_starting_pitcher) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);'
 
 
 awayTeamID = boxscore["away"]["team"]["id"]
 awayTeamBattingStats = boxscore["away"]["teamStats"]["batting"]
-awayTeamBattingStats["avg"] = float(awayTeamBattingStats["avg"])
-awayTeamBattingStats["obp"] = float(awayTeamBattingStats["obp"])
-awayTeamBattingStats["slg"] = float(awayTeamBattingStats["slg"])
-awayTeamBattingStats["ops"] = float(awayTeamBattingStats["ops"])
+awayAVG = float(awayTeamBattingStats["avg"])
+awayOBP = float(awayTeamBattingStats["obp"])
+awaySLG = float(awayTeamBattingStats["slg"])
+awayOPS = float(awayTeamBattingStats["ops"])
 
 awayTeamPitchingStats = boxscore["away"]["teamStats"]["pitching"]
-awayTeamPitchingStats["obp"] = float(awayTeamPitchingStats["obp"])
-awayTeamPitchingStats["era"] = float(awayTeamPitchingStats["era"])
-awayTeamPitchingStats["inningsPitched"] = float(awayTeamPitchingStats["inningsPitched"])
+awayOBP = float(awayTeamPitchingStats["obp"])
+awayERA = float(awayTeamPitchingStats["era"])
+# awayTeamPitchingStats["inningsPitched"] = float(awayTeamPitchingStats["inningsPitched"])
 
 
 homeTeamID = boxscore["home"]["team"]["id"]
 
 homeTeamBattingStats = boxscore["away"]["teamStats"]["batting"]
-homeTeamBattingStats["avg"] = float(homeTeamBattingStats["avg"])
-homeTeamBattingStats["obp"] = float(homeTeamBattingStats["obp"])
-homeTeamBattingStats["slg"] = float(homeTeamBattingStats["slg"])
-homeTeamBattingStats["ops"] = float(homeTeamBattingStats["ops"])
+homeAVG = float(awayTeamBattingStats["avg"])
+homeOBP = float(awayTeamBattingStats["obp"])
+homeSLG = float(awayTeamBattingStats["slg"])
+homeOPS = float(awayTeamBattingStats["ops"])
 
 homeTeamPitchingStats = boxscore["away"]["teamStats"]["pitching"]
-homeTeamPitchingStats["obp"] = float(homeTeamPitchingStats["obp"])
-homeTeamPitchingStats["era"] = float(homeTeamPitchingStats["era"])
-homeTeamPitchingStats["inningsPitched"] = float(homeTeamPitchingStats["inningsPitched"])
+homeOBP = float(awayTeamPitchingStats["obp"])
+homeERA = float(awayTeamPitchingStats["era"])
 
 
 # print(json.dumps(awayTeamBattingStats))
@@ -93,11 +95,16 @@ homeTeamPitchingStats["inningsPitched"] = float(homeTeamPitchingStats["inningsPi
 # print(json.dumps(homeTeamBattingStats))
 # print(json.dumps(homeTeamPitchingStats))
 
+conn = psycopg2.connect(dbname="mlb", user="postgres", password="a0E24me", host="localhost")
+cur = conn.cursor()
+sqlStatment_PLAYERGAME = 'INSERT INTO players (id, full_name, number, position, bats, throws,  injured, ba, team) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);'
+
 
 awayTeamPlayerStats = boxscore["away"]["players"]
 for key in awayTeamPlayerStats:
     player = awayTeamPlayerStats[key]
-    idAndName = player["person"]
+    playerID = player["person"]["id"]
+    playerName = player["person"]["fullName"]
     jerseyNumber = player["jerseyNumber"]
     position = player["position"]["abbreviation"]
     team = player["parentTeamId"]
@@ -105,6 +112,18 @@ for key in awayTeamPlayerStats:
     gameStatsPitching = player["stats"]["pitching"]
     seasonStatsBatting = player["seasonStats"]["batting"]
     seasonStatsPitching = player["seasonStats"]["pitching"]
+    print(playerID)
+    print(gameStatsBatting)
+    # cur.execute(sqlStatment, (playerID, playerName, jerseyNumber, position, ))
+
+
+
+
+
+
+# records = cur.fetchall()
+
+# print(records)
 
 homeTeamPlayerStats = boxscore["home"]["players"]
 for key in awayTeamPlayerStats:
@@ -117,7 +136,7 @@ for key in awayTeamPlayerStats:
     gameStatsPitching = player["stats"]["pitching"]
     seasonStatsBatting = player["seasonStats"]["batting"]
     seasonStatsPitching = player["seasonStats"]["pitching"]
-    print(idAndName["fullName"], jerseyNumber, position, team, gameStatsBatting, seasonStatsBatting)
+    # print(idAndName["fullName"], jerseyNumber, position, team, gameStatsBatting, seasonStatsBatting)
 
 
 awayTeamBattingLineUp = boxscore["away"]["batters"]
