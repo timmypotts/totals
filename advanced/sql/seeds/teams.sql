@@ -18,7 +18,7 @@ INSERT INTO team (id, name, state, city, field) VALUES (143, 'Phillies', 'PA', '
 INSERT INTO team (id, name, state, city, field) VALUES (144, 'Braves', 'GA', 'Atlanta', 14);
 INSERT INTO team (id, name, state, city, field) VALUES (146, 'Marlins', 'FL', 'Miami', 15);
 
--- ======================== AMERICAN LE, fieldAGUE ========================
+-- ======================== AMERICAN LEAGUE ========================
 -- WEST
 INSERT INTO team (id, name, state, city, field) VALUES (108, 'Angels', 'CA', 'Anaheim', 16);
 INSERT INTO team (id, name, state, city, field) VALUES (133, 'Athletics', 'CA', 'Oakland', 17);
