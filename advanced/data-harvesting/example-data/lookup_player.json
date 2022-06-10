@@ -1,0 +1,22 @@
+[
+  {
+    "id": 474832,
+    "fullName": "Brandon Belt",
+    "firstName": "Brandon",
+    "lastName": "Belt",
+    "primaryNumber": "9",
+    "currentTeam": { "id": 137 },
+    "primaryPosition": { "code": "3", "abbreviation": "1B" },
+    "useName": "Brandon",
+    "boxscoreName": "Belt",
+    "nickName": "Bob",
+    "mlbDebutDate": "2011-03-31",
+    "nameFirstLast": "Brandon Belt",
+    "firstLastName": "Brandon Belt",
+    "lastFirstName": "Belt, Brandon",
+    "lastInitName": "Belt, B",
+    "initLastName": "B Belt",
+    "fullFMLName": "Brandon Kyle Belt",
+    "fullLFMName": "Belt, Brandon Kyle"
+  }
+]

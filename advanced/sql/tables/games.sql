@@ -19,8 +19,8 @@ CREATE TABLE game (
     home_ops decimal,
     home_pitching_obp decimal,
     home_era decimal,
-    FOREIGN KEY (home_team_starting_pitcher) REFERENCES players(id) ON UPDATE CASCADE,
-    FOREIGN KEY (away_team_starting_pitcher) REFERENCES players(id) ON UPDATE CASCADE
+    FOREIGN KEY (home_team_starting_pitcher) REFERENCES player(id) ON UPDATE CASCADE,
+    FOREIGN KEY (away_team_starting_pitcher) REFERENCES player(id) ON UPDATE CASCADE
 );
 
 
@@ -39,5 +39,5 @@ CREATE TABLE player_game_stats (
     rbi integer,
     left_on_base integer,
     FOREIGN KEY (game_id) REFERENCES game(id) ON UPDATE CASCADE,
-    FOREIGN KEY (player_id) REFERENCES players(id) ON UPDATE CASCADE
+    FOREIGN KEY (player_id) REFERENCES player(id) ON UPDATE CASCADE
 );

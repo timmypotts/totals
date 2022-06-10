@@ -1,10 +1,10 @@
-CREATE TABLE players (
+CREATE TABLE player (
     id serial PRIMARY KEY,
     full_name text NOT NULL,
     number integer NOT NULL,
     position text NOT NULL,
-    bats text NOT NULL,
-    throws text NOT NULL,
+    bats text,
+    throws text,
     injured boolean NOT NULL DEFAULT false,
     ba decimal NOT NULL,
     team integer NOT NULL,

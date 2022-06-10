@@ -4,7 +4,8 @@ import sqlalchemy
 import psycopg2
 
 
-db = sqlalchemy.create_engine('postgresql://postgres:a0E24me@localhost:5432/mlb')
+db = sqlalchemy.create_engine(
+    'postgresql://postgres:a0E24me@localhost:5432/mlb')
 
 
 teams = {
@@ -48,6 +49,7 @@ teams = {
     "Yankees": 147,
 }
 
+
 # GET LAST GAME ID FOR TEAM
 lastGame = statsapi.last_game(teams["Giants"])
 # print("Giants last game: ", lastGame)
@@ -57,9 +59,13 @@ boxscore = statsapi.boxscore_data(lastGame, timecode=None)
 # print(json.dumps(boxscore))
 # print(boxscore["gameId"])
 
+MLBGameID = boxscore["gameId"]
+gameDate = MLBGameID[0: 10]
+print(gameDate)
+
 # Returns home team stats and player stats
 # print(json.dumps(boxscore["home"]))
-sqlStatment_GAME = 'INSERT INTO players (id, date, home_team, away_team, home_team_runs, away_team_runs,  home_team_starting_pitcher, away_team_starting_pitcher) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);'
+# sqlStatment_GAME = 'INSERT INTO player (id, date, home_team, away_team, home_team_runs, away_team_runs, home_team_starting_pitcher, away_team_starting_pitcher) VALUES ($1, $2, $3, $4, $5, $6, $7, $8);'
 
 
 awayTeamID = boxscore["away"]["team"]["id"]
@@ -95,48 +101,58 @@ homeERA = float(awayTeamPitchingStats["era"])
 # print(json.dumps(homeTeamBattingStats))
 # print(json.dumps(homeTeamPitchingStats))
 
-conn = psycopg2.connect(dbname="mlb", user="postgres", password="a0E24me", host="localhost")
+conn = psycopg2.connect(dbname="mlb", user="postgres",
+                        password="a0E24me", host="localhost")
 cur = conn.cursor()
-sqlStatment_PLAYERGAME = 'INSERT INTO players (id, full_name, number, position, bats, throws,  injured, ba, team) VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9);'
+sqlStatement_PLAYER = 'INSERT INTO player (id, full_name, number, position, ba, team) VALUES (%s, %s, %s, %s, %s, %s);'
 
 
-awayTeamPlayerStats = boxscore["away"]["players"]
-for key in awayTeamPlayerStats:
-    player = awayTeamPlayerStats[key]
-    playerID = player["person"]["id"]
-    playerName = player["person"]["fullName"]
-    jerseyNumber = player["jerseyNumber"]
-    position = player["position"]["abbreviation"]
-    team = player["parentTeamId"]
-    gameStatsBatting = player["stats"]["batting"]
-    gameStatsPitching = player["stats"]["pitching"]
-    seasonStatsBatting = player["seasonStats"]["batting"]
-    seasonStatsPitching = player["seasonStats"]["pitching"]
-    print(playerID)
-    print(gameStatsBatting)
-    # cur.execute(sqlStatment, (playerID, playerName, jerseyNumber, position, ))
+# awayTeamPlayerStats = boxscore["away"]["players"]
+# for key in awayTeamPlayerStats:
+#     player = awayTeamPlayerStats[key]
+#     playerID = player["person"]["id"]
+#     playerName = player["person"]["fullName"]
+#     jerseyNumber = player["jerseyNumber"]
+#     position = player["position"]["abbreviation"]
+#     team = player["parentTeamId"]
+#     awayBattingStats_GAME = player["stats"]["batting"]
+#     awayPitchingStats_GAME = player["stats"]["pitching"]
+#     awayBattingStats_SEASON = player["seasonStats"]["batting"]
+#     awayPitchingStats_SEASON = player["seasonStats"]["pitching"]
+#     ba_SEASON = float(awayBattingStats_SEASON["avg"])
+#     print(playerID)
+#     print(awayBattingStats_SEASON["avg"])
+#     cur.execute(sqlStatement_PLAYER, (playerID,
+#                                       playerName, jerseyNumber, position, ba_SEASON, awayTeamID))
 
 
-
-
-
-
+# conn.commit()
+# cur.close()
+# conn.close()
 # records = cur.fetchall()
 
 # print(records)
 
 homeTeamPlayerStats = boxscore["home"]["players"]
-for key in awayTeamPlayerStats:
-    player = awayTeamPlayerStats[key]
-    idAndName = player["person"]
+for key in homeTeamPlayerStats:
+    player = homeTeamPlayerStats[key]
+    playerID = player["person"]["id"]
+    playerName = player["person"]["fullName"]
     jerseyNumber = player["jerseyNumber"]
     position = player["position"]["abbreviation"]
     team = player["parentTeamId"]
-    gameStatsBatting = player["stats"]["batting"]
-    gameStatsPitching = player["stats"]["pitching"]
-    seasonStatsBatting = player["seasonStats"]["batting"]
-    seasonStatsPitching = player["seasonStats"]["pitching"]
-    # print(idAndName["fullName"], jerseyNumber, position, team, gameStatsBatting, seasonStatsBatting)
+    homeBattingStats_GAME = player["stats"]["batting"]
+    homePitchingStats_GAME = player["stats"]["pitching"]
+    homeBattingStats_SEASON = player["seasonStats"]["batting"]
+    homePitchingStats_SEASON = player["seasonStats"]["pitching"]
+    ba_SEASON = float(homeBattingStats_SEASON["avg"])
+    cur.execute(sqlStatement_PLAYER, (playerID,
+                                      playerName, jerseyNumber, position, ba_SEASON, homeTeamID))
+
+
+conn.commit()
+cur.close()
+conn.close()
 
 
 awayTeamBattingLineUp = boxscore["away"]["batters"]
@@ -147,7 +163,6 @@ awayTeamPitchers = boxscore["away"]["pitchers"]
 homeTeamBattingLineUp = boxscore["home"]["batters"]
 homeTeamBattingOrder = boxscore["home"]["battingOrder"]
 homeTeamPitchers = boxscore["home"]["pitchers"]
-
 
 
 # print("home: %i,  away: %i" % (homeTeamID, awayTeamID))

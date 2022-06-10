@@ -8,6 +8,8 @@ import datetime
 # NEXT GAME FOR TEAM
 # statsapi.next_game(teamId)
 
+player = statsapi.lookup_player('belt')
+print(player)
 
 # GET SCHEDULE
 # statsapi.schedule(date=None, start_date=None, end_date=None, team="", opponent="", sportId=1, game_id=None)
